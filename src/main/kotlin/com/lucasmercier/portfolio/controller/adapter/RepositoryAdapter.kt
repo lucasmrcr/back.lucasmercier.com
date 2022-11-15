@@ -10,7 +10,12 @@ class RepositoryAdapter {
             return ListRepositoryDTO(
                 repository.fullName,
                 repository.pushedAt,
-                repository.createdAt
+                repository.createdAt,
+                repository.isPrivate,
+                repository.isFork,
+                OwnerAdapter.fromOwner(repository.owner),
+                repository.description,
+                repository.language
             )
         }
 

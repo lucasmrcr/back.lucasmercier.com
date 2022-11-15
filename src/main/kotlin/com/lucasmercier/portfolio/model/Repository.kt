@@ -16,5 +16,20 @@ data class Repository(
     val pushedAt: Date,
 
     @JsonProperty("created_at")
-    val createdAt: Date
+    val createdAt: Date,
+
+    @JsonProperty("private")
+    val isPrivate: Boolean,
+
+    @JsonProperty("fork")
+    val isFork: Boolean,
+
+    @JsonProperty("owner")
+    val owner: Owner,
+
+    @JsonProperty("description")
+    val description: String?,
+
+    @JsonProperty("language")
+    val language: String?
 )
