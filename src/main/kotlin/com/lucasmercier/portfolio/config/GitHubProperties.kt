@@ -6,5 +6,6 @@ import org.springframework.boot.context.properties.ConstructorBinding
 @ConstructorBinding
 @ConfigurationProperties(prefix = "github")
 data class GitHubProperties(
-    val endpoint: String
+    val endpoint: String,
+    val oauth2: String
 )

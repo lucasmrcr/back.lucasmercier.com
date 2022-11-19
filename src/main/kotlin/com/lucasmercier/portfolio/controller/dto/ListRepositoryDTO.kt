@@ -10,5 +10,6 @@ data class ListRepositoryDTO(
     val isFork: Boolean,
     val owner: OwnerDTO,
     val description: String?,
-    val language: String?
+    val language: String?,
+    val languages: Map<String, Double>?
 )
