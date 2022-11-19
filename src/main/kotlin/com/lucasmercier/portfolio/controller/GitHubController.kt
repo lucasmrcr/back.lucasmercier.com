@@ -18,6 +18,6 @@ class GitHubController(
 
     @GetMapping("/repositories")
     fun listRepositories(): ResponseEntity<Collection<ListRepositoryDTO>> =
-        ResponseEntity.ok(RepositoryAdapter.fromGHRepositories(githubService.listRepositories()))
+        ResponseEntity.ok(RepositoryAdapter.fromGHRepositories(githubService.listRepositoriesWithLanguages()))
 
 }

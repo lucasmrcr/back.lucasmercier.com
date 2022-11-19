@@ -31,5 +31,8 @@ data class Repository(
     val description: String?,
 
     @JsonProperty("language")
-    val language: String?
+    val language: String?,
+
+    @JsonProperty("languages")
+    var languages: Map<String, Double>?
 )

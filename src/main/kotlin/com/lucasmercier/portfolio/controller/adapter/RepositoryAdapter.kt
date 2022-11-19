@@ -15,7 +15,8 @@ class RepositoryAdapter {
                 repository.isFork,
                 OwnerAdapter.fromOwner(repository.owner),
                 repository.description,
-                repository.language
+                repository.language,
+                repository.languages
             )
         }
 
