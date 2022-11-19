@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   SonarQube:
-    runs-on: redlab
+    runs-on: self-hosted
     steps:
       - uses: AutoModality/action-clean@v1
       - name: SonarQube [Pull Request]
