@@ -6,6 +6,7 @@ import com.lucasmercier.portfolio.service.IGitHubService
 import com.lucasmercier.portfolio.service.IHttpService
 import okhttp3.Headers
 import org.slf4j.LoggerFactory
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 
 @Service
@@ -38,6 +39,7 @@ class GitHubService(
         return repository
     }
 
+    @Cacheable(cacheNames = ["repositoriesWithLanguages"])
     override fun listRepositoriesWithLanguages(): Collection<Repository> {
         val repositories = listRepositories()
         return repositories.map { listLanguagesByRepository(it) }
