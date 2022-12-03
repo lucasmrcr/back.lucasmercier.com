@@ -20,19 +20,9 @@ jobs:
         with:
           fetch-depth: 0
           path: ${{ github.event.repository.name }}
-      - name: Set up JDK 17
-        uses: actions/setup-java@v2
-        with:
-          java-version: 17
-          distribution: 'temurin'
-          cache: maven
-      - name: Set up Maven
-        uses: stCarolas/setup-maven@v4.2
-        with:
-          maven-version: 3.6.3
-      - name: Maven command
+      - name: Gradle build
         shell: bash
-        run: mvn --file ${{ github.event.repository.name }}/pom.xml clean package
+        run: /bin/sh ${{ github.event.repository.name }}/gradlew build
       - name: SonarQube [Pull Request]
         uses: sonarsource/sonarqube-scan-action@master
         with:
