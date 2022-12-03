@@ -24,15 +24,12 @@ jobs:
         uses: sonarsource/sonarqube-scan-action@master
         with:
           args: >
-            -Dsonar.pullrequest.provider=github
-            -Dsonar.pullrequest.github.repository=${{ github.repository }}
+            -Dsonar.projectName=${{ github.event.repository.name }}
             -Dsonar.projectKey=${{ github.event.repository.name }}
             -Dsonar.working.directory=/tmp/sonar
             -Dsonar.projectBaseDir=${{ github.event.repository.name }}
-            -Dsonar.pullrequest.key=${{ github.event.number }}
-            -Dsonar.pullrequest.base=${{ github.base_ref }}
-            -Dsonar.pullrequest.branch=${{ github.head_ref }}
             -Dsonar.qualitygate.wait=true
+            -Dsonar.branch.name=main
         env:
           SONAR_HOST_URL: http://ci-cd.lucasmercier.com:9001
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
