@@ -36,3 +36,15 @@ jobs:
         env:
           SONAR_HOST_URL: http://ci-cd.lucasmercier.com:9001
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+  Build:
+    runs-on: self-hosted
+    steps:
+      - uses: AutoModality/action-clean@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          path: ${{ github.event.repository.name }}
+      - name: Gradle build
+        run: >
+          cd ${{ github.event.repository.name }} && /bin/sh gradlew build
