@@ -25,11 +25,27 @@ jobs:
         with:
           args: >
             -Dsonar.projectName=${{ github.event.repository.name }}
+            -Dsonar.pullrequest.provider=github
+            -Dsonar.pullrequest.github.repository=${{ github.repository }}
             -Dsonar.projectKey=${{ github.event.repository.name }}
             -Dsonar.working.directory=/tmp/sonar
             -Dsonar.projectBaseDir=${{ github.event.repository.name }}
+            -Dsonar.pullrequest.key=${{ github.event.number }}
+            -Dsonar.pullrequest.base=${{ github.base_ref }}
+            -Dsonar.pullrequest.branch=${{ github.head_ref }}
             -Dsonar.qualitygate.wait=true
-            -Dsonar.branch.name=main
         env:
           SONAR_HOST_URL: http://ci-cd.lucasmercier.com:9001
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+  Build:
+    runs-on: self-hosted
+    steps:
+      - uses: AutoModality/action-clean@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          path: ${{ github.event.repository.name }}
+      - name: Gradle build
+        run: >
+          cd ${{ github.event.repository.name }} && /bin/sh gradlew build
