@@ -20,6 +20,9 @@ jobs:
         with:
           fetch-depth: 0
           path: ${{ github.event.repository.name }}
+      - name: Gradle build
+        shell: bash
+        run: cd ${{ github.event.repository.name }} && /bin/sh gradlew build
       - name: SonarQube [Pull Request]
         uses: sonarsource/sonarqube-scan-action@master
         with:
