@@ -1,51 +1,51 @@
 name: Check Pull Request
 
 on:
-  pull_request:
-    types: [opened, reopened, synchronize]
-    branches:
-      - main
+    pull_request:
+        types: [ opened, reopened, synchronize ]
+        branches:
+            - main
 
 concurrency:
-  group: ${{ github.workflow }}
-  cancel-in-progress: true
+    group: ${{ github.workflow }}
+    cancel-in-progress: true
 
 jobs:
-  SonarQube:
-    runs-on: self-hosted
-    steps:
-      - uses: AutoModality/action-clean@v1
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          path: ${{ github.event.repository.name }}
-      - name: Prepare # récupère le nom de la branche
-        shell: bash
-        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
-        id: get-branch
-      - name: SonarQube [Pull Request]
-        uses: sonarsource/sonarqube-scan-action@master
-        with:
-          args: >
-            -Dsonar.projectName=${{ github.event.repository.name }}
-            -Dsonar.projectKey=${{ github.event.repository.name }}
-            -Dsonar.working.directory=/tmp/sonar
-            -Dsonar.projectBaseDir=${{ github.event.repository.name }}
-            -Dsonar.branch.name=${{ steps.get-branch.outputs.branch }}
-            -Dsonar.qualitygate.wait=true
-        env:
-          SONAR_HOST_URL: http://ci-cd.lucasmercier.com:9001
-          SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
-  Build:
-    runs-on: self-hosted
-    steps:
-      - uses: AutoModality/action-clean@v1
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          path: ${{ github.event.repository.name }}
-      - name: Gradle build
-        run: >
-          cd ${{ github.event.repository.name }} && /bin/sh gradlew build
+    SonarQube:
+        runs-on: self-hosted
+        steps:
+            -   uses: AutoModality/action-clean@v1
+            -   name: Checkout
+                uses: actions/checkout@v2
+                with:
+                    fetch-depth: 0
+                    path: ${{ github.event.repository.name }}
+            -   name: Prepare # récupère le nom de la branche
+                shell: bash
+                run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+                id: get-branch
+            -   name: SonarQube [Pull Request]
+                uses: sonarsource/sonarqube-scan-action@master
+                with:
+                    args: >
+                        -Dsonar.projectName=${{ github.event.repository.name }}
+                        -Dsonar.projectKey=${{ github.event.repository.name }}
+                        -Dsonar.working.directory=/tmp/sonar
+                        -Dsonar.projectBaseDir=${{ github.event.repository.name }}
+                        -Dsonar.branch.name=${{ steps.get-branch.outputs.branch }}
+                        -Dsonar.qualitygate.wait=true
+                env:
+                    SONAR_HOST_URL: http://ci-cd.lucasmercier.com:9001
+                    SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+    Build:
+        runs-on: self-hosted
+        steps:
+            -   uses: AutoModality/action-clean@v1
+            -   name: Checkout
+                uses: actions/checkout@v2
+                with:
+                    fetch-depth: 0
+                    path: ${{ github.event.repository.name }}
+            -   name: Gradle build
+                run: >
+                    cd ${{ github.event.repository.name }} && /bin/sh gradlew build
