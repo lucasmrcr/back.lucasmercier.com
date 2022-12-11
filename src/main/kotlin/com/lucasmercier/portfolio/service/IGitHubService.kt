@@ -1,9 +1,9 @@
 package com.lucasmercier.portfolio.service
 
-import com.lucasmercier.portfolio.model.Repository
+import com.lucasmercier.portfolio.service.impl.dto.github.RepositoryDTO
 
 interface IGitHubService {
-    fun listRepositories(): Collection<Repository>
-    fun listLanguagesByRepository(repository: Repository): Repository
-    fun listRepositoriesWithLanguages(): Collection<Repository>
+    fun listRepositories(): Collection<RepositoryDTO>
+    fun listLanguagesByRepository(repositoryDTO: RepositoryDTO): RepositoryDTO
+    fun listRepositoriesWithLanguages(): Collection<RepositoryDTO>
 }

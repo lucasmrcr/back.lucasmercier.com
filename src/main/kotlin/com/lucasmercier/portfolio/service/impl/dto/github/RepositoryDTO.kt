@@ -1,11 +1,11 @@
-package com.lucasmercier.portfolio.model
+package com.lucasmercier.portfolio.service.impl.dto.github
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.*
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class Repository(
+data class RepositoryDTO(
     @JsonProperty("name")
     val name: String,
 
@@ -25,7 +25,7 @@ data class Repository(
     val isFork: Boolean,
 
     @JsonProperty("owner")
-    val owner: Owner,
+    val ownerDTO: OwnerDTO,
 
     @JsonProperty("description")
     val description: String?,

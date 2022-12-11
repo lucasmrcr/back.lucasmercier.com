@@ -1,26 +1,26 @@
 package com.lucasmercier.portfolio.controller.adapter
 
-import com.lucasmercier.portfolio.controller.dto.ListRepositoryDTO
-import com.lucasmercier.portfolio.model.Repository
+import com.lucasmercier.portfolio.controller.dto.github.ListRepositoryDTO
+import com.lucasmercier.portfolio.service.impl.dto.github.RepositoryDTO
 
 class RepositoryAdapter {
 
     companion object {
-        private fun fromGHRepository(repository: Repository) : ListRepositoryDTO {
+        private fun fromGHRepository(repositoryDTO: RepositoryDTO) : ListRepositoryDTO {
             return ListRepositoryDTO(
-                repository.fullName,
-                repository.pushedAt,
-                repository.createdAt,
-                repository.isPrivate,
-                repository.isFork,
-                OwnerAdapter.fromOwner(repository.owner),
-                repository.description,
-                repository.language,
-                repository.languages
+                repositoryDTO.fullName,
+                repositoryDTO.pushedAt,
+                repositoryDTO.createdAt,
+                repositoryDTO.isPrivate,
+                repositoryDTO.isFork,
+                OwnerAdapter.fromOwner(repositoryDTO.ownerDTO),
+                repositoryDTO.description,
+                repositoryDTO.language,
+                repositoryDTO.languages
             )
         }
 
-        fun fromGHRepositories(ghRepositories: Collection<Repository>): Collection<ListRepositoryDTO> {
+        fun fromGHRepositories(ghRepositories: Collection<RepositoryDTO>): Collection<ListRepositoryDTO> {
             return ghRepositories.map { fromGHRepository(it) }
         }
     }

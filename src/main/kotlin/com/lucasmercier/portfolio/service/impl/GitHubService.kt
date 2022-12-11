@@ -1,7 +1,7 @@
 package com.lucasmercier.portfolio.service.impl
 
 import com.lucasmercier.portfolio.config.GitHubProperties
-import com.lucasmercier.portfolio.model.Repository
+import com.lucasmercier.portfolio.service.impl.dto.github.RepositoryDTO
 import com.lucasmercier.portfolio.service.IGitHubService
 import com.lucasmercier.portfolio.service.IHttpService
 import okhttp3.Headers
@@ -25,33 +25,33 @@ class GitHubService(
         private val logger = LoggerFactory.getLogger(GitHubService::class.java)
     }
 
-    override fun listLanguagesByRepository(repository: Repository): Repository {
-        logger.debug("Fetching repositories from https://api.github.com/repos/${repository.fullName}/languages")
+    override fun listLanguagesByRepository(repositoryDTO: RepositoryDTO): RepositoryDTO {
+        logger.debug("Fetching repositories from https://api.github.com/repos/${repositoryDTO.fullName}/languages")
         val languages = httpService.get(
-            "https://api.github.com/repos/${repository.fullName}/languages",
+            "https://api.github.com/repos/${repositoryDTO.fullName}/languages",
             HashMap<String, Int>().javaClass,
             Headers.headersOf("Authorization", "Bearer ${gitHubProperties.oauth2}")
         )
 
         val totalBytes = languages.values.reduce { acc, i -> acc + i }.toDouble()
-        repository.languages = languages.map { it.key to (it.value / totalBytes) }.toMap()
+        repositoryDTO.languages = languages.map { it.key to (it.value / totalBytes) }.toMap()
 
-        return repository
+        return repositoryDTO
     }
 
     @Cacheable(cacheNames = ["repositoriesWithLanguages"])
-    override fun listRepositoriesWithLanguages(): Collection<Repository> {
+    override fun listRepositoriesWithLanguages(): Collection<RepositoryDTO> {
         val repositories = listRepositories()
         return repositories.map { listLanguagesByRepository(it) }
     }
 
-    override fun listRepositories(): Collection<Repository> {
-        val repositories = ArrayList<Repository>()
+    override fun listRepositories(): Collection<RepositoryDTO> {
+        val repositories = ArrayList<RepositoryDTO>()
 
         logger.debug("Fetching repositories from https://api.github.com/user/repos")
         val fetchedFromGitHubRepositories = httpService.get(
             "${gitHubProperties.endpoint}/user/repos",
-            Array<Repository>::class.java,
+            Array<RepositoryDTO>::class.java,
             Headers.headersOf("Authorization", "Bearer ${gitHubProperties.oauth2}")
         )
 

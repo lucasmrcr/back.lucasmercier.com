@@ -1,7 +1,7 @@
 package com.lucasmercier.portfolio.controller
 
 import com.lucasmercier.portfolio.controller.adapter.RepositoryAdapter
-import com.lucasmercier.portfolio.controller.dto.ListRepositoryDTO
+import com.lucasmercier.portfolio.controller.dto.github.ListRepositoryDTO
 import com.lucasmercier.portfolio.service.IGitHubService
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.CrossOrigin
