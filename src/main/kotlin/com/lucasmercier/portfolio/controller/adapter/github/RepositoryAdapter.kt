@@ -1,4 +1,4 @@
-package com.lucasmercier.portfolio.controller.adapter
+package com.lucasmercier.portfolio.controller.adapter.github
 
 import com.lucasmercier.portfolio.controller.dto.github.ListRepositoryDTO
 import com.lucasmercier.portfolio.service.impl.dto.github.GitHubRepositoryResponseDTO
