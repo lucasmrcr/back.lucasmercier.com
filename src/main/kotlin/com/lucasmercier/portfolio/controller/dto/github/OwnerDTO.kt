@@ -1,4 +1,4 @@
-package com.lucasmercier.portfolio.controller.dto
+package com.lucasmercier.portfolio.controller.dto.github
 
 data class OwnerDTO(
     val name: String,
