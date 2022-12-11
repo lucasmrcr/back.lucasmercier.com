@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.*
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class RepositoryDTO(
+data class GitHubRepositoryResponseDTO(
     @JsonProperty("name")
     val name: String,
 
@@ -25,7 +25,7 @@ data class RepositoryDTO(
     val isFork: Boolean,
 
     @JsonProperty("owner")
-    val ownerDTO: OwnerDTO,
+    val gitHubOwnerResponseDTO: GitHubOwnerResponseDTO,
 
     @JsonProperty("description")
     val description: String?,

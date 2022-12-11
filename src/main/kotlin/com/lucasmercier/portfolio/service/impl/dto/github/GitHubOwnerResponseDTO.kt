@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-data class OwnerDTO (
+data class GitHubOwnerResponseDTO (
     @JsonProperty("login")
     val name: String,
 
