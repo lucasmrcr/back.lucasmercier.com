@@ -1,7 +1,8 @@
-name: Integration
+name: Check Pull Request
 
 on:
-  push:
+  pull_request:
+    types: [opened, reopened, synchronize]
     branches:
       - main
 
@@ -31,8 +32,20 @@ jobs:
             -Dsonar.projectKey=${{ github.event.repository.name }}
             -Dsonar.working.directory=/tmp/sonar
             -Dsonar.projectBaseDir=${{ github.event.repository.name }}
-            -Dsonar.qualitygate.wait=true
             -Dsonar.branch.name=${{ steps.get-branch.outputs.branch }}
+            -Dsonar.qualitygate.wait=true
         env:
           SONAR_HOST_URL: http://ci-cd.lucasmercier.com:9001
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
+  Build:
+    runs-on: self-hosted
+    steps:
+      - uses: AutoModality/action-clean@v1
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          path: ${{ github.event.repository.name }}
+      - name: Gradle build
+        run: >
+          cd ${{ github.event.repository.name }} && /bin/sh gradlew build
