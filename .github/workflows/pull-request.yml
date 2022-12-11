@@ -19,6 +19,10 @@ jobs:
         with:
           fetch-depth: 0
           path: ${{ github.event.repository.name }}
+      - name: Prepare # récupère le nom de la branche
+        shell: bash
+        run: echo "::set-output name=branch::${GITHUB_REF#refs/heads/}"
+        id: get-branch
       - name: SonarQube [Pull Request]
         uses: sonarsource/sonarqube-scan-action@master
         with:
@@ -28,7 +32,7 @@ jobs:
             -Dsonar.working.directory=/tmp/sonar
             -Dsonar.projectBaseDir=${{ github.event.repository.name }}
             -Dsonar.qualitygate.wait=true
-            -Dsonar.branch.name=main
+            -Dsonar.branch.name=${{ steps.get-branch.outputs.branch }}
         env:
           SONAR_HOST_URL: http://ci-cd.lucasmercier.com:9001
           SONAR_TOKEN: ${{ secrets.SONARQUBE_TOKEN }}
